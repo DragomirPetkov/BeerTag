@@ -3,31 +3,31 @@ package org.example.beertag.sevices;
 import org.example.beertag.exseptions.EntityDuplicateException;
 import org.example.beertag.exseptions.EntityNotFoundException;
 import org.example.beertag.models.Beer;
+import org.example.beertag.repositories.BeerRepository;
 import org.example.beertag.repositories.BeerRepositoryImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 
-public class BeerServiceImpl {
+public class BeerServiceImpl implements BeerService {
 
-    private BeerRepositoryImpl repository;
+    private BeerRepository repository;
 
-    public BeerServiceImpl() {
-        this.repository = new BeerRepositoryImpl();
+    public BeerServiceImpl(BeerRepository repository) {
+        this.repository = repository;
     }
 
+    @Override
     public List<Beer> getAll() {
         return repository.getAll();
     }
 
+    @Override
     public Beer getById(int id) {
         return repository.getById(id);
     }
 
+    @Override
     public void createBeer(Beer beer) {
         boolean duplicateExists = true;
 
@@ -42,6 +42,7 @@ public class BeerServiceImpl {
         repository.create(beer);
     }
 
+    @Override
     public void update(Beer beer){
         boolean duplicateExists = true;
 
@@ -59,6 +60,7 @@ public class BeerServiceImpl {
         repository.update(beer);
     }
 
+    @Override
     public void delete(int id){
         repository.delete(id);
     }
