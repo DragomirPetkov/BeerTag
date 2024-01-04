@@ -16,34 +16,44 @@ public class BeerController {
 
     private final List<Beer> beers;
 
-    public BeerController(){
+    public BeerController() {
         this.beers = new ArrayList<>();
 
-        beers.add(new Beer(1,"Zagorka",4.5));
-        beers.add(new Beer(2,"Shumensko",4.4));
-        beers.add(new Beer(3,"Kamenitca",4.6));
+        beers.add(new Beer(1, "Zagorka", 4.5));
+        beers.add(new Beer(2, "Shumensko", 4.4));
+        beers.add(new Beer(3, "Kamenitca", 4.6));
     }
 
     @GetMapping
-    private List<Beer> getBeers(){
+    private List<Beer> getBeers() {
         return beers;
     }
+
     @GetMapping("/{id}")
-    private Beer getBeerById(@PathVariable int id){
-       return getSingleBeerById(id);
+    private Beer getBeerById(@PathVariable int id) {
+        return getSingleBeerById(id);
     }
 
     @PostMapping
-    public Beer create(@Valid @RequestBody Beer beer){
+    public Beer create(@Valid @RequestBody Beer beer) {
         beers.add(beer);
         return beer;
     }
 
+    @PutMapping("/{id}")
+    public Beer update(@PathVariable int id, @Valid @RequestBody Beer newBeer) {
+        Beer beer = getBeerById(id);
+        beer.setName(newBeer.getName());
+        beer.setAbv(newBeer.getAbv());
+
+        return beer;
+    }
 
 
     @DeleteMapping("/{id}")
-    private void deleteBeer(@PathVariable int id){
-       beers.remove(getBeerById(id));
+    private void deleteBeer(@PathVariable int id) {
+        Beer beer = getBeerById(id);
+        beers.remove(getBeerById(id));
     }
 
     private Beer getSingleBeerById(int id) {
@@ -52,6 +62,6 @@ public class BeerController {
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        String.format("Beer with id %d not found.",id)));
+                        String.format("Beer with id %d not found.", id)));
     }
 }
