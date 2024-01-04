@@ -1,5 +1,7 @@
 package org.example.beertag.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Negative;
 import org.example.beertag.models.Beer;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,12 @@ public class BeerController {
     @GetMapping("/{id}")
     private Beer getBeerById(@PathVariable int id){
        return getSingleBeerById(id);
+    }
+
+    @PostMapping
+    public Beer create(@Valid @RequestBody Beer beer){
+        beers.add(beer);
+        return beer;
     }
 
 
