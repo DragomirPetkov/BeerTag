@@ -1,14 +1,11 @@
 package org.example.beertag.controller;
 
 import jakarta.validation.Valid;
-import org.example.beertag.configuration.BeanConfiguration;
 import org.example.beertag.exseptions.EntityDuplicateException;
 import org.example.beertag.exseptions.EntityNotFoundException;
 import org.example.beertag.models.Beer;
 import org.example.beertag.sevices.BeerService;
-import org.example.beertag.sevices.BeerServiceImpl;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,10 +17,9 @@ import java.util.List;
 public class BeerController {
 
     private BeerService service;
-
-    public BeerController() {
-        ApplicationContext context = new AnnotationConfigApplicationContext(BeanConfiguration.class);
-        this.service = context.getBean(BeerService.class);
+    @Autowired
+    public BeerController(BeerService service) {
+        this.service = service;
     }
 
     @GetMapping

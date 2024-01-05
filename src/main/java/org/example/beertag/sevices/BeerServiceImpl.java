@@ -4,15 +4,17 @@ import org.example.beertag.exseptions.EntityDuplicateException;
 import org.example.beertag.exseptions.EntityNotFoundException;
 import org.example.beertag.models.Beer;
 import org.example.beertag.repositories.BeerRepository;
-import org.example.beertag.repositories.BeerRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class BeerServiceImpl implements BeerService {
 
     private BeerRepository repository;
-
+    @Autowired
     public BeerServiceImpl(BeerRepository repository) {
         this.repository = repository;
     }
