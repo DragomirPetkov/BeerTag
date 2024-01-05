@@ -2,10 +2,11 @@ package org.example.beertag.sevices;
 
 import org.example.beertag.exseptions.EntityDuplicateException;
 import org.example.beertag.exseptions.EntityNotFoundException;
+import org.example.beertag.exseptions.UnauthorizedOperationException;
 import org.example.beertag.models.Beer;
+import org.example.beertag.models.User;
 import org.example.beertag.repositories.BeerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,7 +46,10 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void update(Beer beer){
+    public void update(Beer beer, User user){
+        if (!user.isAdmin()){
+            throw new UnauthorizedOperationException("Only admins can modify beer.");
+        }
         boolean duplicateExists = true;
 
         try {
@@ -63,7 +67,10 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void delete(int id){
+    public void delete(int id, User user){
+        if (!user.isAdmin()){
+            throw new UnauthorizedOperationException("Only admins can delete beer.");
+        }
         repository.delete(id);
     }
 }

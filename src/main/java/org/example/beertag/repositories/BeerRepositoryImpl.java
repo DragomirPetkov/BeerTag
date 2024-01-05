@@ -3,14 +3,12 @@ package org.example.beertag.repositories;
 import org.example.beertag.exseptions.EntityNotFoundException;
 import org.example.beertag.models.Beer;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Scope("prototype")
 public class BeerRepositoryImpl implements BeerRepository {
 
     private List<Beer> beers;
